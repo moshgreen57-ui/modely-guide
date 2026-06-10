@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modely 使い方ガイド</title>
+  <style>
+    :root {
+      --primary: #6C63FF;
+      --primary-light: #EEF0FF;
+      --accent: #FF6B6B;
+      --text: #1A1A2E;
+      --text-sub: #555;
+      --bg: #F8F9FF;
+      --white: #FFFFFF;
+      --border: #E0E0F0;
+      --step-bg: #F3F0FF;
+      --success: #2ECC71;
+      --radius: 16px;
+      --shadow: 0 4px 24px rgba(108,99,255,0.10);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, #6C63FF 0%, #9B8FFF 100%);
+      color: white;
+      text-align: center;
+      padding: 48px 24px 40px;
+    }
+    header .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.25);
+      border-radius: 20px;
+      padding: 4px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-size: clamp(28px, 6vw, 44px);
+      font-weight: 800;
+      line-height: 1.25;
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+    header h1 span {
+      background: linear-gradient(90deg, #FFE066, #FFB347);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    header p {
+      font-size: 15px;
+      opacity: 0.9;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ===== TOC ===== */
+    nav.toc {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 24px;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    nav.toc::-webkit-scrollbar { display: none; }
+    nav.toc a {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 14px 16px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-sub);
+      text-decoration: none;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    nav.toc a:hover {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+    nav.toc a .icon { font-size: 16px; }
+
+    /* ===== MAIN ===== */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    /* ===== SECTION ===== */
+    section {
+      margin-bottom: 56px;
+      scroll-margin-top: 56px;
+    }
+
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      font-size: clamp(20px, 4vw, 26px);
+      font-weight: 800;
+      margin-bottom: 20px;
+      line-height: 1.3;
+    }
+
+    /* ===== ABOUT CARD ===== */
+    .about-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+    }
+    .about-card p {
+      color: var(--text-sub);
+      margin-bottom: 16px;
+      font-size: 15px;
+    }
+    .about-card p:last-child { margin-bottom: 0; }
+    .highlight-box {
+      background: var(--primary-light);
+      border-left: 4px solid var(--primary);
+      border-radius: 0 8px 8px 0;
+      padding: 16px 20px;
+      margin: 20px 0;
+      font-weight: 600;
+      color: var(--primary);
+      font-size: 15px;
+    }
+
+    /* ===== STEPS ===== */
+    .steps {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .step-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .step-num {
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      font-size: 18px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .step-body {
+      padding: 24px;
+    }
+
+    /* ===== IMAGE PLACEHOLDER ===== */
+    .img-placeholder {
+      width: 100%;
+      background: linear-gradient(135deg, #F0EDFF 0%, #E8E4FF 100%);
+      border: 2px dashed #C4BEFF;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #9B8FFF;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      padding: 32px 16px;
+      text-align: center;
+      min-height: 180px;
+    }
+    .img-placeholder .ph-icon { font-size: 36px; opacity: 0.5; }
+    .img-placeholder .ph-label { opacity: 0.8; }
+
+    /* 実際の画像用 */
+    .step-img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      border: 1px solid var(--border);
+      display: block;
+    }
+
+    .step-desc {
+      font-size: 14px;
+      color: var(--text-sub);
+      line-height: 1.75;
+    }
+    .step-desc ul {
+      padding-left: 20px;
+      margin-top: 8px;
+    }
+    .step-desc li {
+      margin-bottom: 6px;
+    }
+
+    .tip-box {
+      background: #FFF8E7;
+      border: 1px solid #FFD966;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 14px;
+      font-size: 13px;
+      color: #7A5800;
+      display: flex;
+      gap: 8px;
+    }
+    .tip-box .tip-icon { font-size: 16px; flex-shrink: 0; }
+
+    .caution-box {
+      background: #FFF0F0;
+      border: 1px solid #FFBBBB;
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 14px;
+      font-size: 13px;
+      color: #C0392B;
+      display: flex;
+      gap: 8px;
+    }
+    .caution-box .tip-icon { font-size: 16px; flex-shrink: 0; }
+
+    /* ===== BUTTON ===== */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #6C63FF, #9B8FFF);
+      color: white;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(108,99,255,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 12px;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(108,99,255,0.45);
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 40px 0;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      text-align: center;
+      padding: 32px 20px;
+      font-size: 13px;
+      color: #999;
+      border-top: 1px solid var(--border);
+      background: var(--white);
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 480px) {
+      header { padding: 36px 20px 32px; }
+      .step-header { padding: 16px 20px; }
+      .step-body { padding: 18px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="badge">✨ AIツール使い方ガイド</div>
+  <h1>Modely<span>（モデリー）</span><br>かんたん使い方ガイド</h1>
+  <p>登録〜台本作成まで、この1ページで全部わかります</p>
+</header>
+
+<!-- NAV -->
+<nav class="toc">
+  <a href="#about"><span class="icon">📌</span>Modelyとは</a>
+  <a href="#register"><span class="icon">📝</span>新規登録</a>
+  <a href="#login"><span class="icon">🔑</span>ログイン</a>
+  <a href="#howto"><span class="icon">🎬</span>使い方</a>
+</nav>
+
+<main>
+
+  <!-- ===== ABOUT ===== -->
+  <section id="about">
+    <div class="section-label">📌 Modelyとは</div>
+    <h2>40万本のデータで<br>バズを再現するAI</h2>
+    <div class="about-card">
+      <p>
+        Modely（モデリー）は、<strong>約40万本以上の動画データを分析</strong>して、あなたのジャンル・ターゲット・ポジションに最適な勝ちパターンを見つけ、<strong>たった3分で台本を作ってくれるAIツール</strong>です。
+      </p>
+      <div class="highlight-box">
+        🎯 センスや経験がなくても、データの裏付けがあるから自信を持って投稿できる！
+      </div>
+      <p>
+        Instagram 328万回再生・YouTube 23万回再生の台本も、このツールから生まれています。
+        動画制作にかかる時間を大幅に短縮して、本当にやりたいことに集中できます。
+      </p>
+    </div>
+  </section>
+
+  <!-- ===== REGISTER ===== -->
+  <section id="register">
+    <div class="section-label">📝 新規登録</div>
+    <h2>はじめての方はこちら<br>アカウント作成の手順</h2>
+
+    <div class="steps">
+
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div class="step-title">Modelyのサイトにアクセスする</div>
+        </div>
+        <div class="step-body">
+          <!-- 画像：サイトトップ画面 -->
+          <div class="img-placeholder">
+            <div class="ph-icon">🖥️</div>
+            <div class="ph-label">【画像】Modelyのトップ画面</div>
+          </div>
+          <div class="step-desc">
+            配布されたURLからModelyのサイトを開きます。<br>
+            トップ画面が表示されたら「<strong>新規登録</strong>」ボタンをタップしてください。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div class="step-title">メールアドレスとパスワードを入力する</div>
+        </div>
+        <div class="step-body">
+          <!-- 画像：登録フォーム画面 -->
+          <div class="img-placeholder">
+            <div class="ph-icon">✉️</div>
+            <div class="ph-label">【画像】メールアドレス入力画面</div>
+          </div>
+          <div class="step-desc">
+            <ul>
+              <li>メールアドレス（普段使っているもの）</li>
+              <li>パスワード（8文字以上推奨）</li>
+            </ul>
+            入力したら「<strong>登録する</strong>」ボタンを押してください。
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>Googleアカウントでのログインにも対応している場合があります。</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">3</div>
+          <div class="step-title">認証メールを確認する</div>
+        </div>
+        <div class="step-body">
+          <!-- 画像：認証メール or 確認画面 -->
+          <div class="img-placeholder">
+            <div class="ph-icon">📬</div>
+            <div class="ph-label">【画像】認証メール確認の案内画面</div>
+          </div>
+          <div class="step-desc">
+            登録したメールアドレスに確認メールが届きます。<br>
+            メール内のリンクをクリックして、登録を完了させてください。
+          </div>
+          <div class="caution-box">
+            <span class="tip-icon">⚠️</span>
+            <span>メールが届かない場合は「迷惑メール」フォルダを確認してみてください。</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /steps -->
+  </section>
+
+  <!-- ===== LOGIN ===== -->
+  <section id="login">
+    <div class="section-label">🔑 ログイン</div>
+    <h2>2回目以降はここから<br>ログインの手順</h2>
+
+    <div class="steps">
+
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div class="step-title">ログイン画面を開く</div>
+        </div>
+        <div class="step-body">
+          <!-- 画像：ログイン画面 -->
+          <div class="img-placeholder">
+            <div class="ph-icon">🔐</div>
+            <div class="ph-label">【画像】ログイン画面</div>
+          </div>
+          <div class="step-desc">
+            サイトにアクセスして「<strong>ログイン</strong>」ボタンをタップします。
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div class="step-title">メールアドレスとパスワードを入力する</div>
+        </div>
+        <div class="step-body">
+          <!-- 画像：ログインフォーム -->
+          <div class="img-placeholder">
+            <div class="ph-icon">✍️</div>
+            <div class="ph-label">【画像】ログインフォーム入力画面</div>
+          </div>
+          <div class="step-desc">
+            登録時のメールアドレスとパスワードを入力して「<strong>ログイン</strong>」を押してください。
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>パスワードを忘れた場合は「パスワードを忘れた方はこちら」から再設定できます。</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /steps -->
+  </section>
+
+  <!-- ===== HOW TO ===== -->
+  <section id="howto">
+    <div class="section-label">🎬 使い方</div>
+    <h2>台本作成まで3ステップ<br>たった3分で完成！</h2>
+
+    <div class="steps">
+
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">1</div>
+          <div class="step-title">プロフィールを設定する</div>
+        </div>
+        <div class="step-body">
+          <!-- 画像：プロフィール設定画面 -->
+          <div class="img-placeholder">
+            <div class="ph-icon">👤</div>
+            <div class="ph-label">【画像】プロフィール設定画面</div>
+          </div>
+          <div class="step-desc">
+            あなたの情報を入力します。
+            <ul>
+              <li>ジャンル（例：美容、子育て、副業など）</li>
+              <li>ターゲット（どんな年代・悩みの人に向けて発信するか）</li>
+              <li>届けたい情報・自分の経歴・強み・考え方など</li>
+            </ul>
+            ここで入力した情報が台本に反映されるので、できるだけ詳しく書くと◎
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>自分のブログや過去の投稿の文章をそのまま貼り付けてもOKです！</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">2</div>
+          <div class="step-title">参考動画をリサーチする</div>
+        </div>
+        <div class="step-body">
+          <!-- 画像：リサーチ画面 -->
+          <div class="img-placeholder">
+            <div class="ph-icon">🔍</div>
+            <div class="ph-label">【画像】リサーチ・動画選択画面</div>
+          </div>
+          <div class="step-desc">
+            プロフィールをもとに、AIが<strong>今バズっている動画</strong>を表示してくれます。<br>
+            一覧から「この構成で作りたい！」と思う動画を選んでください。
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>再生数が多い動画・コメントが多い動画を参考にするのがおすすめです。</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-card">
+        <div class="step-header">
+          <div class="step-num">3</div>
+          <div class="step-title">台本を作る</div>
+        </div>
+        <div class="step-body">
+          <!-- 画像：台本生成画面 -->
+          <div class="img-placeholder">
+            <div class="ph-icon">📝</div>
+            <div class="ph-label">【画像】台本生成・完成画面</div>
+          </div>
+          <div class="step-desc">
+            「作成スタート！」を押すと、AIが台本を自動生成します。<br>
+            <strong>あなたの言葉・個性をそのまま活かした台本</strong>が、約3分で完成します。<br>
+            そのまま読むだけで撮影できる状態になっています！
+          </div>
+          <div class="tip-box">
+            <span class="tip-icon">💡</span>
+            <span>気に入らない部分は自由に編集OK。AIの台本をベースに自分らしくアレンジしましょう。</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /steps -->
+
+    <div style="text-align:center; margin-top: 32px;">
+      <p style="font-size:14px; color:var(--text-sub); margin-bottom: 8px;">使い方がわからないときはオープンチャットで質問できます</p>
+      <a href="#" class="btn-primary">💬 オープンチャットへ参加する</a>
+    </div>
+
+  </section>
+
+</main>
+
+<footer>
+  <p>© 2026 みなりゆうすけ / AI×動画マーケティング講座</p>
+</footer>
+
+</body>
+</html>
